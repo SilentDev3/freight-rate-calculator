@@ -354,10 +354,7 @@
             <span class="label">Total</span>
             <span class="value" id="r-total"></span>
           </div>
-          <div class="receipt-row gp">
-            <span class="label">Est. Gross Profit</span>
-            <span class="value" id="r-gp"></span>
-          </div>
+          
         </div>
       </div>
 
@@ -463,7 +460,7 @@ function calculate() {
     fuelSurcharge = basePrice * fuelFactor * custDiscount;
     subtotal      = serviceCharge + fuelSurcharge;
     total         = subtotal;
-    gp            = null; // no mileage data for GP
+  
 
     routeInfoHtml = `
       <div class="route-info-item"><span class="ri-label">Route</span><span class="ri-value">${routeKey}</span></div>
