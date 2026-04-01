@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spot Rate Calculator</title>
+<title>Wanship Enterprises Quote Tool</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -21,13 +21,24 @@
   }
 
   header {
-    background: #1a3a5c;
+    background: #4a4f54;
     color: white;
-    padding: 20px 28px;
+    padding: 16px 28px;
     border-radius: 10px 10px 0 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .wanship-logo {
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
   }
 
   header h1 {
@@ -108,7 +119,7 @@
 
   select:focus, input[type="number"]:focus {
     outline: none;
-    border-color: #1a3a5c;
+    border-color: #4a4f54;
     box-shadow: 0 0 0 3px rgba(26,58,92,0.1);
     background: white;
   }
@@ -147,7 +158,7 @@
   }
 
   .receipt-header {
-    background: #1a3a5c;
+    background: #4a4f54;
     color: white;
     padding: 12px 20px;
     font-size: 0.75rem;
@@ -180,7 +191,7 @@
   }
 
   .receipt-row.total {
-    background: #1a3a5c;
+    background: #4a4f54;
     color: white;
     padding: 13px 20px;
   }
@@ -188,8 +199,6 @@
   .receipt-row.total .label { color: rgba(255,255,255,0.85); font-size: 0.9rem; font-weight: 700; }
   .receipt-row.total .value { color: white; font-size: 1.05rem; font-weight: 700; }
 
-  .receipt-row.gp .label { color: #4a5568; }
-  .receipt-row.gp .value { color: #1a8a4a; }
 
   /* Route info strip */
   .route-info {
@@ -197,7 +206,7 @@
     gap: 20px;
     margin-bottom: 16px;
     padding: 12px 16px;
-    background: #eef4ff;
+    background: #f2f3f4;
     border-radius: 7px;
     flex-wrap: wrap;
   }
@@ -219,7 +228,7 @@
   .route-info-item .ri-value {
     font-size: 0.9rem;
     font-weight: 700;
-    color: #1a3a5c;
+    color: #4a4f54;
   }
 
   .no-route {
@@ -250,6 +259,109 @@
     font-style: italic;
   }
 
+  /* Disclosure box */
+  .disclosure {
+    margin-top: 14px;
+    background: #f8f9fc;
+    border: 1px solid #dde3ee;
+    border-left: 3px solid #4a4f54;
+    border-radius: 6px;
+    padding: 12px 16px;
+  }
+
+  .disclosure-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #4a4f54;
+    margin-bottom: 7px;
+  }
+
+  .disclosure ul {
+    margin: 0;
+    padding-left: 16px;
+    list-style: disc;
+  }
+
+  .disclosure ul li {
+    font-size: 0.75rem;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+
+  /* Print button */
+  .print-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 18px;
+    padding: 10px 20px;
+    background: #4a4f54;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    letter-spacing: 0.2px;
+  }
+  .print-btn:hover { background: #5c6166; }
+  .print-btn svg { flex-shrink: 0; }
+
+  /* ââ Print / PDF styles ââââââââââââââââââââââââââââââââââââ */
+  @media print {
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    body { background: white; padding: 0; }
+
+    /* Hide everything except the quote output */
+    .card, .warning, .print-btn, .fuel-note { display: none !important; }
+
+    .container { max-width: 100%; }
+
+    header {
+      border-radius: 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .results-card {
+      border: none;
+      padding: 20px 0 0;
+    }
+
+    .no-route { display: none !important; }
+
+    #results-content { display: block !important; }
+
+    .receipt {
+      border: 1px solid #ccc;
+      border-radius: 0;
+      page-break-inside: avoid;
+    }
+
+    .route-info {
+      background: #f2f3f4;
+      border: 1px solid #c9cbce;
+      border-radius: 0;
+    }
+
+    /* Print-only quote header line */
+    .print-quote-header {
+      display: block !important;
+      font-size: 0.72rem;
+      color: #6b7a99;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #e0e4ea;
+      padding-bottom: 8px;
+    }
+  }
+
+  /* Hide print-only elements on screen */
+  .print-quote-header { display: none; }
+
   @media (max-width: 560px) {
     .form-grid, .acc-row { grid-template-columns: 1fr; }
     .form-group.full-width { grid-column: span 1; }
@@ -261,7 +373,24 @@
 <div class="container">
 
   <header>
-    <h1>Spot Rate Calculator</h1>
+    <div class="header-left">
+      <svg class="wanship-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="62" height="62" aria-label="Wanship Logo">
+        <circle cx="100" cy="100" r="95" fill="white" stroke="rgba(255,255,255,0.85)" stroke-width="5"/>
+        <circle cx="100" cy="100" r="82" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+        <defs>
+          <path id="topArc" d="M 22,100 A 78,78 0 0,1 178,100"/>
+          <path id="botArc" d="M 25,112 A 77,77 0 0,0 175,112"/>
+        </defs>
+        <text font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="14.5" fill="white" letter-spacing="2.5">
+          <textPath href="#topArc" startOffset="50%" text-anchor="middle">THE TRUCKING</textPath>
+        </text>
+        <text font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="12.5" fill="white" letter-spacing="1.5">
+          <textPath href="#botArc" startOffset="50%" text-anchor="middle">COMPANY EST. 1989</textPath>
+        </text>
+        <text x="100" y="118" font-family="Arial Black,Impact,sans-serif" font-weight="900" font-style="italic" font-size="40" fill="white" text-anchor="middle" letter-spacing="-0.5">wanship</text>
+      </svg>
+      <h1>Wanship Enterprises Quote Tool</h1>
+    </div>
     <span class="date-badge" id="today-date"></span>
   </header>
 
@@ -273,14 +402,14 @@
       <div class="form-group">
         <label for="route">Route</label>
         <select id="route">
-          <option value="">Select Route </option>
+          <option value="">â Select Route â</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="pallets">Number of Pallets</label>
         <input type="number" id="pallets" min="1" max="18" value="1" step="1">
-        <span class="input-hint">1 to 18 pallets (18 = full load)</span>
+        <span class="input-hint">1â18 pallets (18 = full load)</span>
       </div>
 
       <div class="form-group">
@@ -325,6 +454,7 @@
     </div>
 
     <div id="results-content" style="display:none;">
+      <p class="print-quote-header">Rate Quote &nbsp;Â·&nbsp; <span id="print-date"></span> &nbsp;Â·&nbsp; Confidential</p>
       <div class="route-info" id="route-info"></div>
 
       <div class="receipt">
@@ -354,11 +484,26 @@
             <span class="label">Total</span>
             <span class="value" id="r-total"></span>
           </div>
-          
         </div>
       </div>
 
       <p class="fuel-note">Fuel surcharge is calculated as of the date the order is placed.</p>
+
+      <div class="disclosure">
+        <p class="disclosure-title">Terms &amp; Conditions</p>
+        <ul>
+          <li>All shipments include <strong>$2 cargo insurance coverage</strong> per pound.</li>
+          <li>Rates quoted are for <strong>first-come, first-served deliveries</strong> scheduled between <strong>7:00 AM â 4:00 PM</strong>.</li>
+          <li>Available temperature options: <strong>35Â°F (refrigerated)</strong> or <strong>-10Â°F (frozen)</strong>.</li>
+        </ul>
+      </div>
+
+      <button class="print-btn" onclick="window.print()">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        Print / Save as PDF
+      </button>
     </div>
   </div>
 
@@ -391,10 +536,6 @@ for (const [eia, factor] of FUEL_TABLE) {
 
 function fmt(n) {
   return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
-
-function fmtPct(n) {
-  return (n * 100).toFixed(1) + '%';
 }
 
 function lookupFuel(eia) {
@@ -449,7 +590,7 @@ function calculate() {
   const { factor: fuelFactor, outOfRange } = lookupFuel(fuelAvg);
   document.getElementById('fuel-warning').style.display = outOfRange ? 'block' : 'none';
 
-  let basePrice, ftlCap, cappedBase, serviceCharge, fuelSurcharge, subtotal, total, gp, routeInfoHtml;
+  let basePrice, ftlCap, cappedBase, serviceCharge, fuelSurcharge, subtotal, total, routeInfoHtml;
 
   if (isFlatRoute) {
     // ââ Flat-rate route (UT-TX / UT-MO / UT-MN) ââ
@@ -460,7 +601,6 @@ function calculate() {
     fuelSurcharge = basePrice * fuelFactor * custDiscount;
     subtotal      = serviceCharge + fuelSurcharge;
     total         = subtotal;
-  
 
     routeInfoHtml = `
       <div class="route-info-item"><span class="ri-label">Route</span><span class="ri-value">${routeKey}</span></div>
@@ -480,9 +620,6 @@ function calculate() {
     fuelSurcharge  = basePrice * fuelFactor * custDiscount;
     subtotal       = Math.min(serviceCharge + fuelSurcharge, ftlCap);
     total          = subtotal;
-    const estCost  = route.miles * 3 * (pallets / 20);
-    gp             = total > 0 ? (total - estCost) / total : 0;
-
     routeInfoHtml = `
       <div class="route-info-item"><span class="ri-label">Route</span><span class="ri-value">${routeKey}</span></div>
       <div class="route-info-item"><span class="ri-label">Miles</span><span class="ri-value">${route.miles.toLocaleString()}</span></div>
@@ -504,15 +641,6 @@ function calculate() {
   document.getElementById('r-subtotal').textContent   = fmt(subtotal);
   document.getElementById('r-total').textContent      = fmt(total);
 
-  const gpEl = document.getElementById('r-gp');
-  if (gp === null) {
-    gpEl.textContent = 'N/A';
-    gpEl.style.color = '#9aa3b8';
-  } else {
-    gpEl.textContent = fmtPct(gp);
-    gpEl.style.color = gp >= 0.15 ? '#1a8a4a' : gp >= 0.05 ? '#c47a00' : '#cc2222';
-  }
-
   // Accessorials
   const showAcc1 = acc1Key !== 'N/A' && acc1Val !== 0;
   const showAcc2 = acc2Key !== 'N/A' && acc2Val !== 0;
@@ -520,7 +648,7 @@ function calculate() {
   document.getElementById('r-acc2-row').style.display = showAcc2 ? '' : 'none';
   if (showAcc1) {
     document.getElementById('r-acc1-label').textContent = acc1Key;
-    document.getElementById('r-acc1').textContent = fmt(acc1Val);
+    document.getElementById('r_acc1').textContent = fmt(acc1Val);
   }
   if (showAcc2) {
     document.getElementById('r-acc2-label').textContent = acc2Key;
@@ -545,7 +673,9 @@ function populateSelect(id, keys, defaultVal) {
 (function init() {
   // Date
   const d = new Date();
-  document.getElementById('today-date').textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  document.getElementById('today-date').textContent = dateStr;
+  document.getElementById('print-date').textContent = dateStr;
 
   // Routes (standard + flat-rate)
   const routeEl = document.getElementById('route');
